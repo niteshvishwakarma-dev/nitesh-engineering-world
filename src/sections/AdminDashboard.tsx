@@ -389,51 +389,69 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose,
                   </div>
                 )}
 
-                <form onSubmit={handleAuthSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-mono text-neutral-400 mb-1.5">
-                      Admin Email *
-                   {hasAdmin === false && (
+                
+<form onSubmit={handleAuthSubmit} className="space-y-4">
   <div>
     <label className="block text-xs font-mono text-neutral-400 mb-1.5">
-      Admin Setup Key *
+      Admin Email *
+    </label>
+    <input
+      type="email"
+      required
+      autoComplete="email"
+      placeholder="Enter your admin email"
+      value={authEmail}
+      onChange={(e) => setAuthEmail(e.target.value)}
+      className="w-full px-3.5 py-2.5 rounded-lg bg-[#18191f] border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+    />
+  </div>
+
+  {hasAdmin === false && (
+    <div>
+      <label className="block text-xs font-mono text-neutral-400 mb-1.5">
+        Admin Setup Key *
+      </label>
+      <input
+        type="password"
+        required
+        autoComplete="off"
+        placeholder="Enter your private setup key"
+        value={authSetupKey}
+        onChange={(e) => setAuthSetupKey(e.target.value)}
+        className="w-full px-3.5 py-2.5 rounded-lg bg-[#18191f] border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+      />
+    </div>
+  )}
+
+  <div>
+    <label className="block text-xs font-mono text-neutral-400 mb-1.5">
+      Password (min. 8 characters) *
     </label>
     <input
       type="password"
       required
-      autoComplete="off"
-      placeholder="Enter your private setup key"
-      value={authSetupKey}
-      onChange={(e) => setAuthSetupKey(e.target.value)}
+      minLength={8}
+      autoComplete={hasAdmin === false ? "new-password" : "current-password"}
+      placeholder="Enter your password"
+      value={authPassword}
+      onChange={(e) => setAuthPassword(e.target.value)}
       className="w-full px-3.5 py-2.5 rounded-lg bg-[#18191f] border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-orange-500 transition-colors"
     />
   </div>
-)}
-                      Password (min. 8 characters) *
-                    </label>
-                    <input
-                      type="password"
-                      required
-                      minLength={8}
-                      placeholder="••••••••••••"
-                      value={authPassword}
-                      onChange={(e) => setAuthPassword(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#18191f] border border-white/10 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-orange-500 transition-colors"
-                    />
-                  </div>
 
-                  <button
-                    type="submit"
-                    disabled={authLoading}
-                    className="w-full py-2.5 px-4 rounded-lg text-sm font-medium bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white transition-colors"
-                  >
-                    {authLoading
-                      ? 'Authenticating...'
-                      : hasAdmin === false
-                      ? 'Create Administrator Account'
-                      : 'Sign In to Portal'}
-                  </button>
-                </form>
+  <button
+    type="submit"
+    disabled={authLoading}
+    className="w-full py-2.5 px-4 rounded-lg text-sm font-medium bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white transition-colors"
+  >
+    {authLoading
+      ? 'Authenticating...'
+      : hasAdmin === false
+      ? 'Create Administrator Account'
+      : 'Sign In to Portal'}
+  </button>
+</form>
+
 
                 <div className="mt-6 pt-4 border-t border-white/[0.06] text-[11px] font-mono text-neutral-400 text-center">
                   Encrypted with bcrypt (12 rounds) & signed JWT tokens.
